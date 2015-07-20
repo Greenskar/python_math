@@ -1,0 +1,128 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jul 20 10:10:49 2015
+
+@author: dwgreen
+"""
+import random
+from sympy import latex
+from sympy.abc import x
+
+class LatWS:
+    """Class to take contain methods for creating
+    a latex worksheet of generated questions
+    """
+"""
+********************************************************
+THIS DOES NOT WORK
+"""
+    def header():
+        """Create a generic header for the worksheet
+        """
+        x = """% Worksheet Template
+        %Header will go here when I figure out
+        %how to program the latex to do it.
+        \documentclass[12pt]{exam}
+        \RequirePackage{multicol}
+        """
+        print x
+
+"""
+END
+********************************************************
+"""       
+    def hLine():
+        """Method creates a horizontal line in latex
+        """
+        print "\\begin{flushleft}"
+        print "\\rule[0.5ex]{\linewidth}{1pt}"
+        print "\end{flushleft}"
+   
+    
+
+class Topic:
+    """Class to represent the topic of a worksheet
+    and algorithms needed to create the worksheet 
+    and the answers
+    """
+    def __init__(self):
+        self.title=''
+        self.instructions=''
+
+class CompTri(Topic):
+    """Class to represent Complex Trinomials
+    is an inherited clas of Topic
+    """
+    def __init__(self):
+        self.title='Factoring Complex Trinomials'
+        self.instructions='INSTRUCTIONS FOR FACTORING COMPLEX TRINOMIALS'
+
+    def question ():
+        """method creates a complex trinomial
+        that is factorable
+        """
+        a=0
+        b=0
+        c=0
+        d=0
+        while (a==0)or(b==0)or(c==0)or(d==0):
+            a=random.randint(-3,3)
+            b=random.randint(-5,5)
+            c=random.randint(-3,3)
+            d=random.randint(-5,5)    
+        r=a*c
+        s=(b*c+a*d)
+        t=b*d
+        return (a, b, c, d, r, s, t)
+
+    def latQuest10():
+        """Method to create the latex output of
+        10 questions and answers
+        """
+        print "\\begin{multicols}{2}"
+        print "\\begin{flushleft}"
+        answer=[]
+        n=0
+        while n<10:    
+            n+=1
+            a, b, c, d, r, s, t = CompTri.question
+            answer.append([a,b,c,d])
+            print '\\textbf{%d.} \hspace{10pt}' % n
+            print latex(r*x**2+s*x+t , mode='inline'),'= 0'
+            if n<>10:
+                print r'\newline', r'\newline', r'\newline', r'\newline'
+            else:
+                print r'\newline', r'\newline'
+        print "\end{flushleft}"
+        print "\end{multicols}"
+        horizLine()
+        print r"\newpage"
+        print "\\begin{multicols}{2}"
+        print "\\begin{flushleft}"
+        n = 0
+        while n<10:    
+            a=answer[n]
+            a0=a[0]
+            a1=a[1]
+            a2=a[2]
+            a3=a[3]
+            n+=1
+            print '\\textbf{%d.} \hspace{10pt}' % n
+            print latex((a0*x+a1)*(a2*x+a3) , mode='inline'),'= 0'
+            if n<>10:
+                print r'\newline', r'\newline', r'\newline', r'\newline'
+            else:
+                print r'\newline', r'\newline'
+        print "\end{flushleft}"
+        print "\end{multicols}"
+
+class SimpTri(Topic):
+    """Class to represent Simple Trinomials
+    is an inherited class of Topic
+    """
+    def __init__(self):
+        self.title='Factoring Simple Trinomials'
+        self.instructions='INSTRUCTIONS FOR FACTORING SIMPLE TRINOMIALS'
+
+ws = LatWS()
+print ws.header
